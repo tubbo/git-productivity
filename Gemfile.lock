@@ -1,0 +1,14 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    kramdown (1.7.0)
+    kramdown-man (0.1.5)
+      kramdown (~> 1.0)
+    semver (1.0.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  kramdown-man
+  semver
