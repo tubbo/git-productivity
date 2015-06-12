@@ -1,6 +1,7 @@
 DOCS = $(wildcard doc/man/*.1.md)
 MANPAGES = $(patsubst doc/man/%.md,share/man/man1/%,$(DOCS))
 VERSION = $(shell semver tag)
+TYPE ?= patch
 
 all: vendor/bundle $(MANPAGES)
 
@@ -25,10 +26,14 @@ share/man/man1/%.1: doc/man/%.1.md
 	@mkdir -p share/man/man1
 	@kramdown-man $< > $@
 
-# Generate a tag with Semver
+# Generate a tag with Semver.
 .git/refs/tags/%:
 	@git tag -a $@ -m "Release $@"
 
 # Release a new version
 release: .git/refs/tags/$(VERSION)
 	@git push --tags
+
+# Increment the version with Semver.
+version:
+	@semver inc $(TYPE)
