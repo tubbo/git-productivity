@@ -28,12 +28,19 @@ share/man/man1/%.1: doc/man/%.1.md
 
 # Generate a tag with Semver.
 .git/refs/tags/%:
-	@git tag -a $@ -m "Release $@"
-
-# Release a new version
-release: .git/refs/tags/$(VERSION)
-	@git push --tags
+	@git tag -a $* -m "Release $*"
 
 # Increment the version with Semver.
 version:
 	@semver inc $(TYPE)
+
+# Create a new tag in Git for the current version.
+tag: .git/refs/tags/$(VERSION)
+
+# Release a new version.
+release:
+	@make version
+	@make tag
+	@git push --tags
+
+
