@@ -7,10 +7,10 @@ all: vendor/bundle $(MANPAGES)
 .PHONY: all clean
 
 clean:
-	rm -rf share/man/man1
+	@rm -rf share/man/man1
 
 vendor/bundle:
-	bundle install
+	@bundle install
 
 # Generate a command.
 bin/%:
@@ -18,7 +18,7 @@ bin/%:
 
 # Generate a manpage.
 doc/man/%.1.md: bin/%
-	@cp doc/template/man.md doc/man/$@.1.md
+	cp doc/template/man.md doc/man/$@.1.md
 
 # Convert manpage from Markdown to Man.
 share/man/man1/%.1: doc/man/%.1.md
@@ -26,9 +26,9 @@ share/man/man1/%.1: doc/man/%.1.md
 	@kramdown-man $< > $@
 
 # Generate a tag with Semver
-tag:
-	git tag -a $(VERSION) -m "Release $(VERSION)"
+.git/refs/tags/%:
+	@git tag -a $@ -m "Release $@"
 
 # Release a new version
-release: tag
-	git push --tags
+release: .git/refs/tags/$(VERSION)
+	@git push --tags
