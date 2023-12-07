@@ -1,4 +1,4 @@
 source 'https://rubygems.org'
 
-gem 'kramdown-man'
+gem 'kramdown-man', '~> 1.0'
 gem 'semver'
